@@ -22,8 +22,6 @@ class DAWApp:
         # Dodanie obszaru wyświetlającego aktualne informacje
         self.info_view = Gtk.TextView()
         self.info_view.set_size_request(350, 100)  # Rozmiar 350x100px
-        self.info_view.override_background_color(Gtk.StateFlags.NORMAL, Gdk.RGBA(1.0, 0.647, 0.0, 1.0))  # Tło pomarańczowe
-        self.info_view.override_font(Pango.FontDescription("Sans Bold 20"))  # Czcionka Sans Bold 20
         self.info_view.set_wrap_mode(Gtk.WrapMode.WORD)
         self.info_buffer = self.info_view.get_buffer()
         self.lcd_tag = self.info_buffer.create_tag("lcd_style", scale=0.833, weight=Pango.Weight.BOLD)

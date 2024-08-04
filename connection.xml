@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aj-snapshot>
+<alsa>
+  <client name="System">
+    <port id="0" />
+    <port id="1" />
+  </client>
+  <client name="Midi Through">
+    <port id="0" />
+  </client>
+  <client name="USB Device 0x7104:0x2202">
+    <port id="0" />
+    <port id="1">
+      <connection client="FLUID Synth (11315)" port="0" />
+    </port>
+  </client>
+  <client name="Q49">
+    <port id="0" />
+  </client>
+  <client name="FLUID Synth (11315)" />
+  <client name="Client-129" />
+  <client name="PipeWire-System" />
+  <client name="PipeWire-RT-Event" />
+</alsa>
+<jack>
+  <client name="fluidsynth">
+    <port name="left">
+      <connection
+port="Sound Blaster X-Fi Go! Pro Analogowe stereo:playback_FL" />
+    </port>
+    <port name="right">
+      <connection
+port="Sound Blaster X-Fi Go! Pro Analogowe stereo:playback_FR" />
+    </port>
+  </client>
+  <client name="Sound Blaster X-Fi Go! Pro Analogowe stereo">
+    <port name="monitor_FL" />
+    <port name="monitor_FR" />
+  </client>
+  <client name="Midi-Bridge">
+    <port name="Midi Through:(capture_0) Midi Through Port-0" />
+    <port
+name="USB Device 0x7104:0x2202 at usb-0000:07:00-0-1-4- full speed:(capture_0) USB Device 0x7104:0x2202 MIDI 1" />
+    <port
+name="USB Device 0x7104:0x2202 at usb-0000:07:00-0-1-4- full speed:(capture_1) USB Device 0x7104:0x2202 MIDI 2" />
+    <port
+name="Alesis Q49 at usb-0000:07:00-0-1-3-2- full speed:(capture_0) Q49 MIDI 1" />
+  </client>
+  <client name="MIDI BLE 1">
+    <port name="out" />
+  </client>
+</jack>
+</aj-snapshot>

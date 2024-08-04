@@ -13,7 +13,7 @@ class DAWApp:
         self.fs.start(driver='jack')  # Ustawienie sterownika
 
         # Inicjalizacja okna Gtk i interfejsu użytkownika
-        self.window = Gtk.Window(title="SF2_loader_for_CME_UF_5-6-7-8")
+        self.window = Gtk.Window(title="SF2_loader")
         self.window.connect("destroy", Gtk.main_quit)
 
         self.vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)

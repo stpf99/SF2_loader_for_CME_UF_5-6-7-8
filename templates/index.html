@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF2 Loader Web Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        select, button { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>SF2 Loader Web Interface</h1>
+    <div>
+        <label for="sf2-select">SF2 File:</label>
+        <select id="sf2-select"></select>
+    </div>
+    <div>
+        <label for="bank-select">Bank:</label>
+        <select id="bank-select"></select>
+    </div>
+    <div>
+        <label for="preset-select">Preset:</label>
+        <select id="preset-select"></select>
+    </div>
+    <button id="load-button">Load Instrument</button>
+    <div id="info"></div>
+
+    <script>
+        const sf2Select = document.getElementById('sf2-select');
+        const bankSelect = document.getElementById('bank-select');
+        const presetSelect = document.getElementById('preset-select');
+        const loadButton = document.getElementById('load-button');
+        const infoDiv = document.getElementById('info');
+
+        fetch('/sf2_files')
+            .then(response => response.json())
+            .then(files => {
+                files.forEach(file => {
+                    const option = document.createElement('option');
+                    option.text = file;
+                    sf2Select.add(option);
+                });
+                updateBanks();
+            });
+
+        function updateBanks() {
+            bankSelect.innerHTML = '';
+            for (let i = 0; i < 128; i++) {
+                const option = document.createElement('option');
+                option.text = i;
+                option.value = i;
+                bankSelect.add(option);
+            }
+            updatePresets();
+        }
+
+        function updatePresets() {
+            const sf2File = sf2Select.value;
+            const bank = bankSelect.value;
+            fetch(`/presets?sf2_file=${sf2File}&bank=${bank}`)
+                .then(response => response.json())
+                .then(presets => {
+                    presetSelect.innerHTML = '';
+                    presets.forEach(preset => {
+                        const [idx, name] = preset;
+                        const option = document.createElement('option');
+                        option.text = `${idx}: ${name}`;
+                        option.value = idx.split(':')[1];
+                        presetSelect.add(option);
+                    });
+                });
+        }
+
+        sf2Select.addEventListener('change', updatePresets);
+        bankSelect.addEventListener('change', updatePresets);
+
+        loadButton.addEventListener('click', () => {
+            const sf2File = sf2Select.value;
+            const bank = bankSelect.value;
+            const preset = presetSelect.value;
+            fetch('/load_instrument', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sf2_file: sf2File, bank: parseInt(bank), preset: parseInt(preset) }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    infoDiv.textContent = `Loaded: ${sf2File}, Bank: ${bank}, Preset: ${preset}`;
+                } else {
+                    infoDiv.textContent = 'Error loading instrument';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
